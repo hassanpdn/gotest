@@ -4,11 +4,18 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
+	"math/rand"
 	"os"
 )
 
+type User struct {
+	ID int
+	Email string
+	Passkey string
+}
 
-
+var userStorage []User
+  
 func main() {
 
 	fmt.Println("End Line")
@@ -16,37 +23,117 @@ func main() {
 	command := flag.String("command", "no-command", "create a new task")
 	flag.Parse()
 
-	// input: name, 
+	// input: name,
 
+	runCommand(*command)
+	fmt.Println("User List", userStorage)
+}
+
+func runCommand(command string) {
+	switch command {
+	case "create-task":
+		createTask()
+	case "create-category":
+		createCategory()
+	case "login":
+		login()
+	case "register":
+		register()
+	}
+}
+
+func createTask() {
 	scanner := bufio.NewScanner(os.Stdin)
-	if *command == "create-task" {
-		var name, dueDate, category string
+	var name, dueDate, category string
+	
+	// name
+	
+	fmt.Println("Please Enter The Task Title")
+	
+	scanner.Scan()
+	
+	name = scanner.Text()
+	
+	// due date
+	
+	fmt.Println("Please Enter The Task Due Date")
+	
+	scanner.Scan()
+	
+	dueDate = scanner.Text()
+	
+	// category
+	
+	fmt.Println("Please Enter The Task Category")
+	
+	scanner.Scan()
+	
+	category = scanner.Text()
+	
+	fmt.Println(name, category, dueDate)
+}
 
-		// name
+func createCategory() {
+	scanner := bufio.NewScanner(os.Stdin)
+	var title, color string
+	
+	fmt.Println("please enter category title")
+	
+	scanner.Scan()
+	
+	title = scanner.Text()
+	
+	fmt.Println("please enter category color")
+	
+	scanner.Scan()
+	
+	color = scanner.Text()
+	
+	fmt.Println(title, color)
+}
 
-		fmt.Println("Please Enter The Task Title" )
+func register() {
+	scanner := bufio.NewScanner(os.Stdin)
+	var id, email, password string
 
-		scanner.Scan()
+	fmt.Println("please enter user password")
 
-		name = scanner.Text()
+	scanner.Scan()
 
-		// due date
+	password = scanner.Text()
 
-		fmt.Println("Please Enter The Task Due Date" )
+	fmt.Println("please enter user email")
 
-		scanner.Scan()
+	scanner.Scan()
 
-		dueDate = scanner.Text()
+	email = scanner.Text()
 
-		// category
+	id = email
 
-		fmt.Println("Please Enter The Task Category" )
+	fmt.Println(id, email, password)
 
-		scanner.Scan()
-
-		category = scanner.Text()
-		fmt.Println(name, category, dueDate)
+	user := User{
+		ID: rand.Int(),
+		Email: email,
+		Passkey: password,
 	}
 
-	 
+	userStorage = append(userStorage, user)
+}
+
+func login() {
+	scanner := bufio.NewScanner(os.Stdin)
+
+	fmt.Println("Enter Your Username")
+	scanner.Scan()
+
+	var username = scanner.Text()
+
+	fmt.Println("Enter your password")
+
+	scanner.Scan()
+
+	password := scanner.Text()
+
+	fmt.Println(username, password)
 }
