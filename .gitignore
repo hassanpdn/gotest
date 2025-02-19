@@ -1,0 +1,3 @@
+# ignore all .go files in the project (except the one we want)
+*.go
+!flag.go
